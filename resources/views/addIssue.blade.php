@@ -8,7 +8,7 @@
 
                 <div class="panel-body">
                   <div class="panel-heading text-center form_head"><h2><b>Add</b> New Issue</h2></div>
-                    <form class="form-horizontal" method="POST" action="/addIs">
+                    <form class="form-horizontal" method="POST" action="addIssue">
                       {{ csrf_field() }}
 
                         <div class="custom_field form-group ">
@@ -18,43 +18,42 @@
                         </div>
                         <br>
                         <div class="custom_field form-group{{ $errors->has('type') ? ' has-error' : '' }}">
-                            <select class="form-control" id="type" name="type">
+                            <select class="form-control" id="type" name="departmnet">
                                 <option>--Department--</option>
-                                <option> Manufacturing </option>
-                                <option> Painting</option>
-                                <option> Packaging</option>
+                                <option value="Manufacturing"> Manufacturing </option>
+                                <option value="Painting"> Painting</option>
+                                <option value="Packaging"> Packaging</option>
 
                               </select>
                         </div>
 
                         <div class="custom_field form-group{{ $errors->has('type') ? ' has-error' : '' }}">
-                            <select class="form-control" id="type" name="type">
+                            <select class="form-control" id="type" name="tec_id">
                                 <option>--Technician--</option>
-                                <option> Id 001 </option>
-                                <option> Id 002</option>
-                                <option> Id 003</option>
+                                <option value="1"> Id 001 </option>
+                                <option value="2"> Id 002</option>
+                                <option value="3"> Id 003</option>
                               </select>
                         </div>
 
                         <div class="custom_field form-group{{ $errors->has('type') ? ' has-error' : '' }}">
                             <select class="form-control" id="type" name="type">
                                 <option>--Issue Type--</option>
-                                <option> Minor Issue </option>
-                                <option> Major Issue</option>
-                                <option> Critical Issue</option>
+                                <option value="Minor Issue"> Minor Issue </option>
+                                <option value="Major Issue"> Major Issue</option>
+                                <option value="Critical Issue"> Critical Issue</option>
                               </select>
                         </div>
 
                         <div class="custom_field form-group ">
                           <div class="inner-addon left-addon">
                             <i class="glyphicon glyphicon-tag"></i>
-                                <input id="issueDescription" type="text" class="form-control" name="des" value="{{ old('name') }}" required autofocus placeholder="Issue Description">
+                                <input id="issueDescription" type="text" class="form-control" name="desc" value="{{ old('name') }}" required autofocus placeholder="Issue Description">
                         </div>
                         
 
                         <div class="custom_field form-group ">
                             <div class="inner-addon left-addon">
-
                               <h5> Deadline</h5>
                             </div>
 
@@ -62,7 +61,7 @@
                         <div class="custom_field form-group ">
                           <div class="inner-addon left-addon">
                             <i class="glyphicon glyphicon-tag"></i>
-                                <input id="userId" type="date" class="form-control" name="user" value="{{ old('name') }}" >
+                                <input id="userId" type="date" class="form-control" name="deadline" value="{{ old('name') }}" >
                         </div>
                         <br>
 

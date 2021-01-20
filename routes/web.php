@@ -17,27 +17,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/addIs', function () {
-    return view('addIssue');
-});
-
-Route::get('/list', function () {
-    return view('issueList');
-});
-
-Route::get('/deplist', function () {
-    return view('departmentList');
-});
-
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/addIssue', 'IssueController@index');
-Route::get('/issuelist', 'IssueController@index');
+Route::post('/addIssue', 'IssueController@store');
+Route::get('/list', 'IssueController@index');
+Route::get('/addIs', 'IssueController@create');
 
-Route::get('/department', 'DepartmentController@index');
-Route::get('/', 'DepartmentController@index');
+Route::get('/department', 'DepartmentController@create');
+Route::post('/addDepartment', 'DepartmentController@store');
+Route::get('/deplist', 'DepartmentController@index');
 
 Route::get('/technician', 'TechnicianController@index');

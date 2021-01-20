@@ -10,10 +10,14 @@
         <tr>
           <th scope="col">Department ID</th>
           <th scope="col">Department Name</th>
-
-
         </tr>
       </thead>
+      @foreach ($depList as $dep)
+        <tr>
+          <td scope="col">{{$dep->id}}</th>
+          <td scope="col">{{$dep->name}}</th>
+        </tr>
+      @endforeach
       <tbody>
 
   </div>

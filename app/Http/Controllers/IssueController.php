@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Issue;
 
 class IssueController extends Controller
 {
@@ -13,7 +14,9 @@ class IssueController extends Controller
      */
     public function index()
     {
-        return view ('layouts.master');
+        $issueList = Issue::all();
+
+        return view('issueList', ['issues' => $issueList]);
     }
 
     /**
@@ -23,7 +26,7 @@ class IssueController extends Controller
      */
     public function create()
     {
-        //
+        return view('addIssue');
     }
 
     /**
@@ -35,6 +38,16 @@ class IssueController extends Controller
     public function store(Request $request)
     {
         //
+        $issue = new Issue();
+        $issue->title = $request->input('title');
+        $issue->departmnet = $request->input('departmnet');
+        $issue->tec_id = $request->input('tec_id');
+        $issue->type = $request->input('type');
+        $issue->desc = $request->input('desc');
+        $issue->deadline = $request->input('deadline');
+        $issue->save();
+
+        return redirect()->to('addIs');
     }
 
     /**
