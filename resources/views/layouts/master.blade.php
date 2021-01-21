@@ -1,3 +1,7 @@
+@php
+     $admin = Auth::user()->roles->pluck('name')->contains('admin');
+@endphp
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -31,14 +35,16 @@
                           Issues
                       </a>
                       <ul class="collapse list-unstyled" id="bookSubmenu">
-                          <li>
-                            <a href="addIs">
+                            @if($admin) 
+                            <li>
+                            <a href="/addIs">
                               <i class="glyphicon glyphicon-plus"></i>
-                              Add a new issue
+                              Add a new issue 
                             </a>
-                          </li>
+                          </li> 
+                            @endif
                           <li>
-                            <a href="list">
+                            <a href="/list">
                               <i class="lyphicon glyphicon-list"></i>
                               Issue List
                             </a>
@@ -47,20 +53,21 @@
                     </li>
                     <li>
 
-
+                    @if($admin)         
+                    <li>
                         <a href="#catSubmenu" data-toggle="collapse" aria-expanded="false">
                             <i class="glyphicon glyphicon-tags"></i>
                             Departments
                         </a>
                         <ul class="collapse list-unstyled" id="catSubmenu">
                             <li>
-                              <a href="department">
+                              <a href="/department">
                                 <i class="glyphicon glyphicon-plus"></i>
                                 Add a New Department
                               </a>
                             </li>
                             <li>
-                              <a href="deplist">
+                              <a href="/deplist">
                                 <i class="glyphicon glyphicon-list"></i>
                                 Department List
                               </a>
@@ -75,17 +82,16 @@
                         <ul class="collapse list-unstyled" id="authorSubmenu">
                             
                             <li>
-                              <a href="technician">
+                              <a href="/technician">
                                 <i class="glyphicon glyphicon-list"></i>
                                 Technicians List
                               </a>
                             </li>
                         </ul>
                     </li>
+                    @endif
 
-
-
-
+                
 
 
                 </ul>
@@ -106,8 +112,17 @@
 
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav navbar-right">
-                                <li><a href="{{ url('/logout') }}">Logout</a></li>
+                                <li><a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        Logout
+                                    </a></li>
                             </ul>
+                            
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
                         </div>
                     </div>
                 </nav>

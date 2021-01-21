@@ -13,20 +13,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['middleware' => 'auth'], function () {
+    
+    Route::get('/', 'IssueController@index');
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/list', 'IssueController@index');
+    Route::get('/viewIssue/{id}', 'IssueController@view');
+    Route::post('/updateIssue/{id}', 'IssueController@update');
+    Route::get('/noPermisiion', 'HomeController@permission');
 
-Route::post('/addIssue', 'IssueController@store');
-Route::get('/list', 'IssueController@index');
-Route::get('/addIs', 'IssueController@create');
+    Route::group(['middleware' => 'isAdmin'], function () {
+        Route::post('/addIssue', 'IssueController@store');
+        Route::get('/addIs', 'IssueController@create');
+        Route::get('/issue-delete/{id}', 'IssueController@destroy');
 
-Route::get('/department', 'DepartmentController@create');
-Route::post('/addDepartment', 'DepartmentController@store');
-Route::get('/deplist', 'DepartmentController@index');
+        Route::get('/department', 'DepartmentController@create');
+        Route::post('/addDepartment', 'DepartmentController@store');
+        Route::get('/deplist', 'DepartmentController@index');
 
-Route::get('/technician', 'TechnicianController@index');
+        Route::get('/technician', 'TechnicianController@index');
+    });
+});
+

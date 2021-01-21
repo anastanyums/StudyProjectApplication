@@ -14,7 +14,8 @@ class AddStatusToIssuesTable extends Migration
     public function up()
     {
         Schema::table('issues', function (Blueprint $table) {
-            $table->string('status')->nullable();
+            $table->string('status')->nullable()->default('un-seen');
+            $table->date('fix_date')->nullable();
         });
     }
 
@@ -27,6 +28,7 @@ class AddStatusToIssuesTable extends Migration
     {
         Schema::table('issues', function (Blueprint $table) {
             $table->dropColumn('status');
+            $table->dropColumn('fix_date');
         });
     }
 }

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Issue;
+use App\Department;
+use App\User;
+use Auth;
 
 class IssueController extends Controller
 {
@@ -14,10 +17,18 @@ class IssueController extends Controller
      */
     public function index()
     {
-        $issueList = Issue::all();
+        $user = Auth::user();;
 
+        if (!$user->roles->pluck('name')->contains('admin')) {
+            $issueList = Issue::where('tec_id', $user->id)->get();
+        } else {
+            $issueList = Issue::all();
+        }
         return view('issueList', ['issues' => $issueList]);
     }
+
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -26,7 +37,36 @@ class IssueController extends Controller
      */
     public function create()
     {
-        return view('addIssue');
+
+        $departments = Department::all();
+        $tech = User::select('name', 'id')->whereHas('roles', function($q)
+        {
+            $q->where('name', '!=', 'admin');
+        
+        })->get();
+
+        return view('addIssue', ['techs' => $tech, 'departments' => $departments]);
+    }
+
+
+    public function view($id)
+    {
+        $issue = Issue::findOrFail($id);
+        $user = Auth::user();;
+
+        if (!$user->roles->pluck('name')->contains('admin')) {
+            $issue->status = "Seen";
+            $issue->save();
+        }
+
+        $departments = Department::all();
+        $tech = User::select('name', 'id')->whereHas('roles', function($q)
+        {
+            $q->where('name', '!=', 'admin');
+        
+        })->get();
+
+        return view('viewIssue', ['techs' => $tech, 'departments' => $departments, 'issue' => $issue]);
     }
 
     /**
@@ -82,6 +122,12 @@ class IssueController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $issue = Issue::findOrFail($id);
+        $issue->fix_date = $request->input('fix_date');
+        $issue->status = $request->input('status');
+        $issue->save();
+
+        return redirect()->to('list');
     }
 
     /**
@@ -92,6 +138,9 @@ class IssueController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $issue = Issue::findOrFail($id);
+        $issue->delete();
+
+        return redirect()->to('list');
     }
 }

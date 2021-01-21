@@ -7,62 +7,63 @@
             <div class="panel panel-default">
 
                 <div class="panel-body">
-                  <div class="panel-heading text-center form_head"><h2><b>Add</b> New Issue</h2></div>
-                    <form class="form-horizontal" method="POST" action="addIssue">
+                  <div class="panel-heading text-center form_head"><h2> Issue</h2></div>
+                    <form class="form-horizontal" method="POST" action="/updateIssue/{{$issue->id}}">
                       {{ csrf_field() }}
 
                         <div class="custom_field form-group ">
-                          <div class="inner-addon left-addon">
-                            <i class="glyphicon glyphicon-tag"></i>
-                                <input id="title" type="text" class="form-control" name="title" value="{{ old('name') }}" required autofocus placeholder="The Issue">
+                          Titile: {{$issue->title}}
+                            
+                            
                         </div>
                         <br>
                         <div class="custom_field form-group{{ $errors->has('type') ? ' has-error' : '' }}">
-                            <select class="form-control" id="type" name="departmnet">
-                                <option>--Department--</option>
-                                @foreach ($departments as $department)
-                                  <option value="{{$department->id}}"> {{$department->name}} </option>
-                                @endforeach
-                              </select>
+                        Department: {{$issue->departments->name}}
+                            
                         </div>
 
                         <div class="custom_field form-group{{ $errors->has('type') ? ' has-error' : '' }}">
-                            <select class="form-control" id="type" name="tec_id">
-                                <option>--Technician--</option>
-                                @foreach ($techs as $tech)
-                                  <option value="{{$tech->id}}"> {{$tech->name}} </option>
-                                @endforeach
-                              </select>
+                        Technician: {{$issue->user->name}}
+                            
                         </div>
 
                         <div class="custom_field form-group{{ $errors->has('type') ? ' has-error' : '' }}">
-                            <select class="form-control" id="type" name="type">
-                                <option>--Issue Type--</option>
-                                <option value="Minor Issue"> Minor Issue </option>
-                                <option value="Major Issue"> Major Issue</option>
-                                <option value="Critical Issue"> Critical Issue</option>
-                              </select>
+                        Issue Type: {{$issue->type}}
+                            
                         </div>
 
                         <div class="custom_field form-group ">
-                          <div class="inner-addon left-addon">
-                            <i class="glyphicon glyphicon-tag"></i>
-                                <input id="issueDescription" type="text" class="form-control" name="desc" value="{{ old('name') }}" required autofocus placeholder="Issue Description">
+                        Description: {{$issue->desc}}
+                                
+                        </div>
+
+                        <div class="custom_field form-group ">
+                        Deadline: {{$issue->deadline}}
+                                
                         </div>
                         
 
                         <div class="custom_field form-group ">
                             <div class="inner-addon left-addon">
-                              <h5> Deadline</h5>
+                              <h5> Resolved Date</h5>
                             </div>
 
 
                         <div class="custom_field form-group ">
                           <div class="inner-addon left-addon">
                             <i class="glyphicon glyphicon-tag"></i>
-                                <input id="userId" type="date" class="form-control" name="deadline" value="{{ old('name') }}" >
+                                <input id="userId" type="date" class="form-control" name="fix_date" value="{{ old('name') }}" >
                         </div>
                         <br>
+
+                        <div class="custom_field form-group{{ $errors->has('type') ? ' has-error' : '' }}">
+                            <select class="form-control" id="type" name="status">
+                                <option>--Resolution--</option>
+                                <option value="Done"> Done </option>
+                                <option value="Working"> Working</option>
+                                <option value="Postponed"> Postponed</option>
+                              </select>
+                        </div>
 
 
                         <!--<div class="row" style="margin-left: 0px; margin-right: -57px;">
